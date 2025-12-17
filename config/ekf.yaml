@@ -1,0 +1,38 @@
+ekf_filter_node:
+  ros__parameters:
+    frequency: 30.0
+    two_d_mode: true
+    publish_acceleration: false
+    publish_tf: true
+    map_frame: map              # Defaults to "map"
+    odom_frame: odom            # Defaults to "odom"
+    base_link_frame: base_footprint  # Defaults to "base_link"
+    world_frame: odom           # Set to odom for local fusion (odom->base_link)
+
+    # ODOMETRY CONFIGURATION
+    # The topic name matches your current list
+    odom0: /odom
+    # Matrix config: [x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az]
+    # We use X, Y (position) and Yaw (orientation) and their velocities.
+    # If your /odom drifts a lot in X/Y, set indices 0 and 1 to false and use velocity only (6, 7).
+    odom0_config: [true, true, false,
+                   false, false, false,
+                   true, true, false,
+                   false, false, true,
+                   false, false, false]
+    odom0_differential: false
+    odom0_queue_size: 10
+
+    # IMU CONFIGURATION
+    imu0: /imu
+    # We use Yaw (orientation) and Yaw Velocity (gyro)
+    imu0_config: [false, false, false,
+                  false, false, true,
+                  false, false, false,
+                  false, false, true,
+                  true, false, false] # Added linear acceleration X just in case
+    imu0_differential: false
+    imu0_queue_size: 10
+    
+    # Remove gravity from IMU acceleration
+    imu0_remove_gravitational_acceleration: true
